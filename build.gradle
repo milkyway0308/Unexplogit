@@ -1,0 +1,28 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.0"
+    id "org.jetbrains.kotlin.jvm" version "1.5.31"
+    id "java"
+}
+
+version rootProject.properties['version'] as String
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.spongepowered.org/maven' }
+}
+
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+    implementation("org.apache.logging.log4j:log4j-core:2.14.1")
+    compileOnly('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
+}
+
+
+shadowJar {
+    relocate 'org.apache.logging', 'org.apache.hotfix.logging'
+}
